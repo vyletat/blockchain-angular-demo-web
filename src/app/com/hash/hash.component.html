@@ -1,11 +1,12 @@
+<!-- Hash card -->
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Blockchain hash</mat-card-title>
+    <mat-card-title>Hash example</mat-card-title>
     <mat-card-subtitle>
       <!-- Hash function -->
       <mat-form-field appearance="legacy">
         <mat-label>Hash function</mat-label>
-        <mat-select [(ngModel)]="hashFunction" (ngModelChange)="dataChanged()">
+        <mat-select [id]="'hashFunction-input'" [(ngModel)]="hashFunction" (ngModelChange)="dataChanged()">
           <mat-option *ngFor="let hash of getHasFunctions()" [value]="hash">
             {{hash}}
           </mat-option>
@@ -19,7 +20,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Data</mat-label>
-        <textarea matInput rows="6" [(ngModel)]="data" (ngModelChange)="dataChanged()"></textarea>
+        <textarea matInput [id]="'data-input'" rows="6" [(ngModel)]="data" (ngModelChange)="dataChanged()"></textarea>
       </mat-form-field>
     </div>
 
@@ -27,7 +28,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Hash</mat-label>
-        <input matInput [value]="hashCard.hash" readonly>
+        <input matInput [id]="'hash-output'" [readonly]="true" [type]="'text'" [value]="hashCard.hash">
       </mat-form-field>
     </div>
 

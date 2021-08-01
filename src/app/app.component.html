@@ -1,6 +1,14 @@
 <mat-toolbar color="primary">
-  <button mat-button [routerLink]="['/']"><mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> {{title | uppercase}}</button>
-  <button mat-button *ngFor="let item of menuItems" [routerLink]="[item.href]">{{item.name}}</button>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button *ngFor="let item of menuItems" mat-menu-item [routerLink]="[item.href]">
+      <span>{{item.name}}</span>
+    </button>
+  </mat-menu>
+  <button mat-button [routerLink]="['/']">{{title | uppercase}}</button>
+  <!--<button mat-button *ngFor="let item of menuItems" [routerLink]="[item.href]">{{item.name}}</button>-->
 </mat-toolbar>
 
 <div class="container mt-4">
