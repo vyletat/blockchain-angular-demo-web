@@ -45,7 +45,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NgbModule,
     MatToolbarModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

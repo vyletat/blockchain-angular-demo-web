@@ -9,10 +9,6 @@ export class CryptoService {
 
   constructor() { }
 
-  hashData(data: string): string {
-    return CryptoJS.SHA256(data).toString();
-  }
-
   hashDataWithSelectedFunction(data: string, hashFunction: HashFunctionEnum): string {
     switch (hashFunction) {
       case HashFunctionEnum.md5:

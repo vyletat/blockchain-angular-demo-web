@@ -1,1 +1,124 @@
-<p>blockchain works!</p>
+<!-- TODO: Hash function -->
+
+<!-- Blockchain cards -->
+<!-- Genesis block -->
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Genesis block</mat-card-title>
+    <mat-card-subtitle>
+      <!-- Number -->
+      <mat-form-field appearance="legacy">
+        <mat-label>Index</mat-label>
+        <span matPrefix>#&nbsp;</span>
+        <input matInput [id]="'index-output'" [type]="'number'" [readonly]="true" [value]="1">
+      </mat-form-field>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="mx-4">
+    <!-- Data -->
+    <div class="row w-100">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Data</mat-label>
+        <textarea matInput [id]="'data-input'" rows="6"></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Nonce -->
+    <div class="row w-100">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Nonce</mat-label>
+        <input matInput [id]="'nonce-input'" [type]="'text'">
+      </mat-form-field>
+    </div>
+
+    <!-- Hash -->
+    <div class="row w-100">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Hash</mat-label>
+        <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true">
+      </mat-form-field>
+    </div>
+
+  </mat-card-content>
+
+  <mat-card-actions>
+  </mat-card-actions>
+</mat-card>
+
+<!-- Other blocks -->
+<div *ngFor="let block of blockchain; let i = index">
+  <ng-container *ngIf="i > 0">
+    <!-- Link icon -->
+    <div class="row d-flex justify-content-center my-4">
+      <button mat-fab disabled color="primary">
+        <mat-icon>link</mat-icon>
+      </button>
+    </div>
+
+    <!-- Card -->
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>
+          <!-- Number -->
+          <mat-form-field appearance="legacy">
+            <mat-label>Index</mat-label>
+            <span matPrefix>#&nbsp;</span>
+            <input matInput [id]="'index-output'" [type]="'number'" [readonly]="true" [value]="block.index">
+          </mat-form-field>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <mat-chip-list>
+            <mat-chip *ngIf="block.valid" color="primary" selected>Valid</mat-chip>
+            <mat-chip *ngIf="!block.valid" color="warn" selected>Invalid</mat-chip>
+          </mat-chip-list>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="mx-4">
+        <!-- Data -->
+        <div class="row w-100">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Data</mat-label>
+            <textarea matInput [id]="'data-input'" rows="6" [value]="block.data"></textarea>
+          </mat-form-field>
+        </div>
+
+        <!-- Nonce -->
+        <div class="row w-100">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nonce</mat-label>
+            <input matInput [id]="'nonce-input'" [type]="'text'" [value]="block.nonce">
+          </mat-form-field>
+        </div>
+
+        <!-- Hash -->
+        <div class="row w-100">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Hash</mat-label>
+            <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true" [value]="blockchain[i].currentHash">
+          </mat-form-field>
+        </div>
+
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="row d-flex justify-content-center">
+          <button mat-raised-button color="warn" (click)="removeBlock(i)">
+            <mat-icon>delete</mat-icon>
+            Delete block
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </ng-container>
+</div>
+
+
+
+<!-- Add button -->
+<div class="row d-flex justify-content-center my-4">
+  <button mat-fab color="primary" (click)="addBlock()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
