@@ -12,8 +12,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./block.component.css']
 })
 export class BlockComponent implements OnInit {
-  difficulty = 4;
-  loading = false;
+  difficulty: number = 4;
+  loading: boolean = false;
   blockCard: BlockInterface =  {
     index: 1,
     timestamp: Date.now(),

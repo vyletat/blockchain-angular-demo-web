@@ -5,23 +5,24 @@
 <!-- Genesis block -->
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Genesis block</mat-card-title>
+    <mat-card-title>Genesis block # {{blockchain[0].index}}</mat-card-title>
     <mat-card-subtitle>
-      <!-- Number -->
-      <mat-form-field appearance="legacy">
-        <mat-label>Index</mat-label>
-        <span matPrefix>#&nbsp;</span>
-        <input matInput [id]="'index-output'" [type]="'number'" [readonly]="true" [value]="1">
-      </mat-form-field>
     </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content class="mx-4">
+    <!-- Timestamp -->
+    <div class="d-flex justify-content-center">
+      <p>
+        {{blockchain[0].timestamp | date:'d MMMM y, h:mm:ss'}}
+      </p>
+    </div>
+
     <!-- Data -->
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Data</mat-label>
-        <textarea matInput [id]="'data-input'" rows="6"></textarea>
+        <textarea matInput [id]="'data-input'" rows="6" [(ngModel)]="blockchain[0].data" (ngModelChange)="inputChange(0)"></textarea>
       </mat-form-field>
     </div>
 
@@ -29,7 +30,15 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Nonce</mat-label>
-        <input matInput [id]="'nonce-input'" [type]="'text'">
+        <input matInput [id]="'nonce-input'" [type]="'text'" [(ngModel)]="blockchain[0].nonce" (ngModelChange)="inputChange(0)">
+      </mat-form-field>
+    </div>
+
+    <!-- Previous Hash -->
+    <div class="row w-100">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Previous hash</mat-label>
+        <input matInput id="'block-preview-hash-input'" type="text" readonly="true" [(ngModel)]="blockchain[0].prevHash">
       </mat-form-field>
     </div>
 
@@ -37,13 +46,29 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Hash</mat-label>
-        <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true">
+        <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true" [(ngModel)]="blockchain[0].currentHash">
       </mat-form-field>
     </div>
 
   </mat-card-content>
 
   <mat-card-actions>
+    <div class="d-flex justify-content-center">
+      <div class="col-9">
+        <ngb-alert *ngIf="blockchain[0].valid" [type]="'success'" [dismissible]="false">
+          VALID
+        </ngb-alert>
+        <ngb-alert *ngIf="!blockchain[0].valid" [type]="'danger'" [dismissible]="false">
+          INVALID
+        </ngb-alert>
+      </div>
+      <div class="col-2">
+        <button mat-raised-button class="w-100" [color]="'primary'" (click)="mineAction(0)">Mine <i class="fa fa-hashtag"></i></button>
+      </div>
+      <div class="col-1">
+        <mat-spinner *ngIf="loading" [strokeWidth]="5" [diameter]="30"></mat-spinner>
+      </div>
+    </div>
   </mat-card-actions>
 </mat-card>
 
@@ -61,27 +86,26 @@
     <mat-card class="example-card">
       <mat-card-header>
         <mat-card-title>
-          <!-- Number -->
-          <mat-form-field appearance="legacy">
-            <mat-label>Index</mat-label>
-            <span matPrefix>#&nbsp;</span>
-            <input matInput [id]="'index-output'" [type]="'number'" [readonly]="true" [value]="block.index">
-          </mat-form-field>
+          <!-- Index -->
+          # {{block.index}}
         </mat-card-title>
         <mat-card-subtitle>
-          <mat-chip-list>
-            <mat-chip *ngIf="block.valid" color="primary" selected>Valid</mat-chip>
-            <mat-chip *ngIf="!block.valid" color="warn" selected>Invalid</mat-chip>
-          </mat-chip-list>
         </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content class="mx-4">
+        <!-- Timestamp -->
+        <div class="d-flex justify-content-center">
+          <p>
+            {{block.timestamp | date:'d MMMM y, h:mm:ss'}}
+          </p>
+        </div>
+
         <!-- Data -->
         <div class="row w-100">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Data</mat-label>
-            <textarea matInput [id]="'data-input'" rows="6" [value]="block.data"></textarea>
+            <textarea matInput [id]="'data-input'" rows="6" [(ngModel)]="block.data" (ngModelChange)="inputChange(i)"></textarea>
           </mat-form-field>
         </div>
 
@@ -89,7 +113,15 @@
         <div class="row w-100">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Nonce</mat-label>
-            <input matInput [id]="'nonce-input'" [type]="'text'" [value]="block.nonce">
+            <input matInput [id]="'nonce-input'" [type]="'text'" [(ngModel)]="block.nonce" (ngModelChange)="inputChange(i)">
+          </mat-form-field>
+        </div>
+
+        <!-- Previous Hash -->
+        <div class="row w-100">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Previous hash</mat-label>
+            <input matInput id="'block-preview-hash-input'" type="text" readonly="true" [(ngModel)]="block.prevHash">
           </mat-form-field>
         </div>
 
@@ -97,18 +129,34 @@
         <div class="row w-100">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Hash</mat-label>
-            <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true" [value]="blockchain[i].currentHash">
+            <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true" [(ngModel)]="block.currentHash">
           </mat-form-field>
         </div>
 
       </mat-card-content>
 
       <mat-card-actions>
-        <div class="row d-flex justify-content-center">
-          <button mat-raised-button color="warn" (click)="removeBlock(i)">
-            <mat-icon>delete</mat-icon>
-            Delete block
-          </button>
+        <div class="d-flex justify-content-center">
+          <div class="col-7">
+            <ngb-alert *ngIf="blockchain[0].valid" [type]="'success'" [dismissible]="false">
+              VALID
+            </ngb-alert>
+            <ngb-alert *ngIf="!blockchain[0].valid" [type]="'danger'" [dismissible]="false">
+              INVALID
+            </ngb-alert>
+          </div>
+          <div class="col-2">
+            <button mat-raised-button color="warn" class="w-100" (click)="removeBlock(i)">
+              <i class="fa fa-trash"></i>
+              Delete block
+            </button>
+          </div>
+          <div class="col-2">
+            <button mat-raised-button class="w-100" [color]="'primary'" (click)="mineAction(i)">Mine <i class="fa fa-hashtag"></i></button>
+          </div>
+          <div class="col-1">
+            <mat-spinner *ngIf="loading" [strokeWidth]="5" [diameter]="30"></mat-spinner>
+          </div>
         </div>
       </mat-card-actions>
     </mat-card>

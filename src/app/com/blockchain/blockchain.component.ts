@@ -8,13 +8,15 @@ import {BlockInterface} from "../../types/block.interface";
 })
 export class BlockchainComponent implements OnInit {
   index: number = 1;
+  loading: boolean = false;
   blockchain: BlockInterface[] =
   [
     {
       index: this.index,
+      timestamp: Date.now(),
       data: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.',
       nonce: 0,
-      prevHash: '',
+      prevHash: '0',
       currentHash: '',
       valid: false
     }
@@ -22,13 +24,16 @@ export class BlockchainComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
+  /**
+   * Create new block.
+   */
   addBlock(): void {
     this.index++;
     let initBlock: BlockInterface = {
       index: this.index,
+      timestamp: Date.now(),
       data: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.',
       nonce: 0,
       prevHash: '',
@@ -39,6 +44,9 @@ export class BlockchainComponent implements OnInit {
     console.info(`New block was created with ID: ${this.index}`);
   }
 
+  /**
+   * Remove block.
+   */
   removeBlock(index: number): void {
     if (this.blockchain.length - 1 == index) {
       this.blockchain.pop();
@@ -48,16 +56,26 @@ export class BlockchainComponent implements OnInit {
     }
   }
 
-  dataHash() {
+  /**
+   * Create new indexes after block remove.
+   */
+  renewIndex(): void {
 
   }
 
-  findNonceHash() {
+  inputChange(index: number) {
+
+  }
+
+  mineAction(index: number) {
+
+  }
+
+  mineBlock(block: BlockInterface) {
 
   }
 
   checkBlockchain() {
 
   }
-
 }
