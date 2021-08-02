@@ -13,10 +13,7 @@
         </mat-form-field>-->
     </mat-card-title>
     <mat-card-subtitle>
-        <!-- Timestamp -->
-        <p class="col-auto">
-          {{blockCard.timestamp | date:'d MMMM y, h:mm:ss'}}
-        </p>
+
         <!--<mat-form-field appearance="fill">
           <mat-label>Timestamp</mat-label>
           <input matInput [matDatepicker]="picker">
@@ -27,6 +24,14 @@
   </mat-card-header>
 
   <mat-card-content class="mx-4">
+    <!-- Timestamp -->
+    <div class="d-flex justify-content-center">
+      <p>
+        {{blockCard.timestamp | date:'d MMMM y, h:mm:ss'}}
+      </p>
+    </div>
+
+
     <!-- Data -->
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
