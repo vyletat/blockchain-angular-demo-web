@@ -20,6 +20,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CommonModule} from "@angular/common";
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { MatMenuModule } from '@angular/material/menu';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
     MatCardModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -46,6 +50,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,12 +3,33 @@
   <mat-card-header>
     <mat-card-title>Block example</mat-card-title>
     <mat-card-subtitle>
-      <!-- Number -->
-      <mat-form-field appearance="legacy">
-        <mat-label>Index</mat-label>
-        <span matPrefix>#&nbsp;</span>
-        <input matInput [id]="'index-output'" [type]="'number'" [readonly]="true" [value]="1">
-      </mat-form-field>
+      <div>
+        <ngb-alert *ngIf="blockCard.valid" [type]="'success'" [dismissible]="false">
+          VALID
+        </ngb-alert>
+        <ngb-alert *ngIf="!blockCard.valid" [type]="'danger'" [dismissible]="false">
+          INVALID
+        </ngb-alert>
+      </div>
+      <div class="row d-flex justify-content-between">
+        <!-- Number -->
+        <h1># {{blockCard.index}}</h1>
+        <!--<mat-form-field appearance="legacy">
+          <mat-label>Index</mat-label>
+          <span matPrefix>#&nbsp;</span>
+          <input matInput id="'index-output'" type="number" readonly="true" [value]="blockCard.index">
+        </mat-form-field>-->
+        <!-- Timestamp -->
+        <p>
+          {{blockCard.timestamp | date:'fullDate'}}
+        </p>
+        <mat-form-field appearance="fill">
+          <mat-label>Timestamp</mat-label>
+          <input matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
     </mat-card-subtitle>
   </mat-card-header>
 
@@ -17,7 +38,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Data</mat-label>
-        <textarea matInput [id]="'data-input'" rows="6"></textarea>
+        <textarea matInput id="'data-input'" rows="6" [value]="blockCard.data" (ngModelChange)="inputChange()"></textarea>
       </mat-form-field>
     </div>
 
@@ -25,20 +46,32 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Nonce</mat-label>
-        <input matInput [id]="'nonce-input'" [type]="'text'">
+        <input matInput id="'nonce-input'" type="number" [value]="blockCard.nonce">
       </mat-form-field>
     </div>
 
-    <!-- Hash -->
+    <!-- Preview Hash -->
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Hash</mat-label>
-        <input matInput [id]="'hash-output'" [type]="'text'" [readonly]="true">
+        <mat-label>Preview hash</mat-label>
+        <input matInput id="'preview-hash-input'" type="text" readonly="true" [value]="blockCard.prevHash">
       </mat-form-field>
     </div>
 
+    <!-- Current Hash -->
+    <div class="row w-100">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Current hash</mat-label>
+        <input matInput id="'current-hash-input'" type="text" readonly="true" [value]="blockCard.currentHash">
+      </mat-form-field>
+    </div>
   </mat-card-content>
 
   <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" (click)="mineAction()">Mine</button>
+      <mat-spinner *ngIf="loading">
+      </mat-spinner>
+    </div>
   </mat-card-actions>
 </mat-card>
