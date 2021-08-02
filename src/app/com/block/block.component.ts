@@ -4,6 +4,7 @@ import {CryptoService} from "../../ser/cryptoService/crypto.service";
 import {HashFunctionEnum} from "../../types/hash-function.enum";
 import {Observable} from "rxjs";
 import {MineService} from "../../ser/mineService/mine.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-block',
@@ -24,22 +25,35 @@ export class BlockComponent implements OnInit {
   }
 
   constructor(private cryptoService: CryptoService,
-              private mineService: MineService) { }
+              private mineService: MineService,
+              private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);
   }
 
+  /**
+   * If some input is changed, block is invalid and hash is changed.
+   */
   inputChange() {
-
+    this.blockCard.valid = false;
+    this.blockCard.timestamp = Date.now();
+    this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);
+    console.info(`Blocks input with ID=${this.blockCard.index} was changed and is now INVALID`);
   }
 
+  /**
+   * For click event.
+   */
   mineAction() {
     this.loading = true;
-    this.mineBlockWorker(this.blockCard)
-    this.loading = false;
+    document.getElementById('block-data-input');
+    this.mineBlockWorker(this.blockCard);
   }
 
+  /**
+   * Return string for data hash.
+   */
   getDataFromBlock(block: BlockInterface): string {
     return `${block.data}${block.nonce}${block.prevHash}${block.timestamp}`
   }
@@ -58,12 +72,23 @@ export class BlockComponent implements OnInit {
     });
   }
 
+  /**
+   * Call service with mine web worker.
+   */
   async mineBlockWorker(block: BlockInterface) {
     await this.mineService.mineBlock(block, value => {
       this.blockCard.timestamp = value.date;
       this.blockCard.nonce = value.nonce;
       this.blockCard.currentHash = value.hash;
+      this.blockCard.valid = true;
+      this.loading = false;
+      console.info(`Block with ID=${this.blockCard.index} was mined and his hash is: ${this.blockCard.currentHash}`);
+      this.openSnackBar(`Block with ID=${this.blockCard.index} was mined.`, 'OK')
     });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 3000});
   }
 
 }

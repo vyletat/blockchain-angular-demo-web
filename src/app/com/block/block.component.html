@@ -1,35 +1,28 @@
+<h1 class="display-1">Block example</h1>
+
 <!-- Block card -->
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Block example</mat-card-title>
-    <mat-card-subtitle>
-      <div>
-        <ngb-alert *ngIf="blockCard.valid" [type]="'success'" [dismissible]="false">
-          VALID
-        </ngb-alert>
-        <ngb-alert *ngIf="!blockCard.valid" [type]="'danger'" [dismissible]="false">
-          INVALID
-        </ngb-alert>
-      </div>
-      <div class="row d-flex justify-content-between">
-        <!-- Number -->
-        <h1># {{blockCard.index}}</h1>
-        <!--<mat-form-field appearance="legacy">
+    <mat-card-title>
+      <!-- Index -->
+      <h1 class="col-auto"># {{blockCard.index}}</h1>
+      <!--<mat-form-field appearance="legacy">
           <mat-label>Index</mat-label>
           <span matPrefix>#&nbsp;</span>
           <input matInput id="'index-output'" type="number" readonly="true" [value]="blockCard.index">
         </mat-form-field>-->
+    </mat-card-title>
+    <mat-card-subtitle>
         <!-- Timestamp -->
-        <p>
-          {{blockCard.timestamp | date:'fullDate'}}
+        <p class="col-auto">
+          {{blockCard.timestamp | date:'d MMMM y, h:mm:ss'}}
         </p>
-        <mat-form-field appearance="fill">
+        <!--<mat-form-field appearance="fill">
           <mat-label>Timestamp</mat-label>
           <input matInput [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
+        </mat-form-field>-->
     </mat-card-subtitle>
   </mat-card-header>
 
@@ -38,7 +31,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Data</mat-label>
-        <textarea matInput id="'data-input'" rows="6" [value]="blockCard.data" (ngModelChange)="inputChange()"></textarea>
+        <textarea matInput id="'block-data-input'" rows="6" [attr.disabled]="loading ? '' : null" [(ngModel)]="blockCard.data" (ngModelChange)="inputChange()"></textarea>
       </mat-form-field>
     </div>
 
@@ -46,7 +39,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Nonce</mat-label>
-        <input matInput id="'nonce-input'" type="number" [value]="blockCard.nonce">
+        <input matInput id="'block-nonce-input'" type="number" [attr.disabled]="loading ? '' : null" [(ngModel)]="blockCard.nonce" (ngModelChange)="inputChange()">
       </mat-form-field>
     </div>
 
@@ -54,7 +47,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Preview hash</mat-label>
-        <input matInput id="'preview-hash-input'" type="text" readonly="true" [value]="blockCard.prevHash">
+        <input matInput id="'block-preview-hash-input'" type="text" readonly="true" [(ngModel)]="blockCard.prevHash">
       </mat-form-field>
     </div>
 
@@ -62,16 +55,27 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Current hash</mat-label>
-        <input matInput id="'current-hash-input'" type="text" readonly="true" [value]="blockCard.currentHash">
+        <input matInput id="'block-current-hash-input'" type="text" readonly="true" [(ngModel)]="blockCard.currentHash">
       </mat-form-field>
     </div>
   </mat-card-content>
 
   <mat-card-actions>
-    <div class="row justify-content-center">
-      <button mat-raised-button color="primary" (click)="mineAction()">Mine</button>
-      <mat-spinner *ngIf="loading">
-      </mat-spinner>
+    <div class="d-flex justify-content-center">
+      <div class="col-9">
+        <ngb-alert *ngIf="blockCard.valid" [type]="'success'" [dismissible]="false">
+          VALID
+        </ngb-alert>
+        <ngb-alert *ngIf="!blockCard.valid" [type]="'danger'" [dismissible]="false">
+          INVALID
+        </ngb-alert>
+      </div>
+      <div class="col-2">
+        <button mat-raised-button class="w-100" [color]="'primary'" (click)="mineAction()">Mine <i class="fa fa-hashtag"></i></button>
+      </div>
+      <div class="col-1">
+        <mat-spinner *ngIf="loading" [strokeWidth]="5" [diameter]="30"></mat-spinner>
+      </div>
     </div>
   </mat-card-actions>
 </mat-card>

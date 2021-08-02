@@ -7,7 +7,7 @@ addEventListener('message', ({ data }) => {
   postMessage(response);*/
 
   const block: BlockInterface = JSON.parse(data);
-  let difficulty = 4, nonce = 0, hash, date;
+  let difficulty = 5, nonce = 0, hash, date;
   do {
     nonce++;
     date = Date.now();
