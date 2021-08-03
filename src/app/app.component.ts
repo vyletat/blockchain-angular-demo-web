@@ -13,6 +13,7 @@ interface MenuItemInterface {
 export class AppComponent {
   title = 'Blockchain demo';
   today = Date.now();
+  // Array with m,enu items hrefs
   menuItems: MenuItemInterface[] = [
     {
       name: 'Hash',

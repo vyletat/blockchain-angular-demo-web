@@ -8,6 +8,12 @@ export class MineService {
 
   constructor() { }
 
+  /**
+   * Call Web Worker and mine the block.
+   *
+   * @param data            Block for mining.
+   * @param updateBlock     Callback that return data.
+   */
   async mineBlock(data: BlockInterface, updateBlock: (value: any) => void) {
     if (typeof Worker !== 'undefined') {
       // Create a new Worker

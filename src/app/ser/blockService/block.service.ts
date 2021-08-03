@@ -10,10 +10,11 @@ export class BlockService {
 
   /**
    * Return string for data hash.
+   *
+   * @param block     Block with data.
    */
   getDataFromBlock(block: BlockInterface): string {
     return `${block.data}${block.nonce}${block.prevHash}${block.timestamp}`;
   }
-
 
 }

@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {BlockInterface} from "../../types/block.interface";
 import {CryptoService} from "../../ser/cryptoService/crypto.service";
 import {HashFunctionEnum} from "../../types/hash-function.enum";
-import {Observable} from "rxjs";
 import {MineService} from "../../ser/mineService/mine.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BlockService} from "../../ser/blockService/block.service";
@@ -13,7 +12,7 @@ import {BlockService} from "../../ser/blockService/block.service";
   styleUrls: ['./block.component.css']
 })
 export class BlockComponent implements OnInit {
-  difficulty: number = 4;
+  // difficulty: number = 4;
   loading: boolean = false;
   blockCard: BlockInterface =  {
     index: 1,
@@ -45,14 +44,14 @@ export class BlockComponent implements OnInit {
   }
 
   /**
-   * For click event.
+   * Mine block - for click event.
    */
   mineAction() {
     this.loading = true;
     this.mineBlockWorker(this.blockCard);
   }
 
-  mineBlock(block: BlockInterface): Observable<string> {
+  /*mineBlock(block: BlockInterface): Observable<string> {
     return new Observable<string>(subscriber => {
       block.nonce = 0;
       let hash;
@@ -64,10 +63,12 @@ export class BlockComponent implements OnInit {
       subscriber.next(hash);
       subscriber.complete();
     });
-  }
+  }*/
 
   /**
    * Call service with mine web worker.
+   *
+   * @param block     Block to mine.
    */
   async mineBlockWorker(block: BlockInterface) {
     await this.mineService.mineBlock(block, value => {
@@ -81,6 +82,12 @@ export class BlockComponent implements OnInit {
     });
   }
 
+  /**
+   * Open snackbar in this component.
+   *
+   * @param message     Message to show.
+   * @param action      Message for action.
+   */
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {duration: 3000});
   }

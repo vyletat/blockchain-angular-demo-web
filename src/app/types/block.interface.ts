@@ -1,3 +1,6 @@
+/**
+ * Interface for blockchain block.
+ */
 export interface BlockInterface {
   index: number,
   timestamp?: number,

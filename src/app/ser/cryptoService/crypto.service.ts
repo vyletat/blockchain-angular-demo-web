@@ -9,6 +9,12 @@ export class CryptoService {
 
   constructor() { }
 
+  /**
+   * Hash data with selected hash function.
+   *
+   * @param data              Data to hash.
+   * @param hashFunction      hash function.
+   */
   hashDataWithSelectedFunction(data: string, hashFunction: HashFunctionEnum): string {
     switch (hashFunction) {
       case HashFunctionEnum.md5:

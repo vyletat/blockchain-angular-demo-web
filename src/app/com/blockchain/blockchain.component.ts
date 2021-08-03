@@ -57,6 +57,8 @@ export class BlockchainComponent implements OnInit {
 
   /**
    * Remove block.
+   *
+   * @param index       Block index to remove.
    */
   removeBlock(index: number): void {
     if (this.blockchain.length - 1 == index) {
@@ -80,6 +82,8 @@ export class BlockchainComponent implements OnInit {
 
   /**
    * Trigger every time when is something is changed in block.
+   *
+   * @param index       Block index.
    */
   inputChange(index: number) {
     this.blockchain[index].timestamp = Date.now();
@@ -89,6 +93,11 @@ export class BlockchainComponent implements OnInit {
     console.info(`Blocks input with ID: ${this.blockchain[index].index} was changed and is now INVALID`);
   }
 
+  /**
+   * Mine block - for click event.
+   *
+   * @param index       Block index.
+   */
   mineAction(index: number) {
     this.loading = true;
     this.mineBlockWorker(index);
@@ -96,6 +105,8 @@ export class BlockchainComponent implements OnInit {
 
   /**
    * Get previous block hash.
+   *
+   * @param index       Block index.
    */
   getPreviousHash(index: number): string {
     let prevHash: string;
@@ -109,6 +120,8 @@ export class BlockchainComponent implements OnInit {
 
   /**
    * Call service with mine web worker.
+   *
+   * @param index       Block index.
    */
   async mineBlockWorker(index: number) {
     await this.mineService.mineBlock(this.blockchain[index], value => {
@@ -144,6 +157,8 @@ export class BlockchainComponent implements OnInit {
 
   /**
    * Check if previous valid attribute block is valid.
+   *
+   * @param index       Block index.
    */
   prevIsValid(index: number): boolean {
     let valid: boolean = true;
@@ -157,6 +172,12 @@ export class BlockchainComponent implements OnInit {
     return valid;
   }
 
+  /**
+   * Open snackbar in this component.
+   *
+   * @param message     Message to show.
+   * @param action      Message for action.
+   */
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {duration: this.snackBarDuration});
   }

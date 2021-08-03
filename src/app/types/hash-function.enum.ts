@@ -1,3 +1,6 @@
+/**
+ * Enum of all hash functions that CryptoJS support.
+ */
 export enum HashFunctionEnum {
   md5 = 'MD5',
   sha1 = 'SHA-1',
