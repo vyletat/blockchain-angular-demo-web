@@ -5,6 +5,7 @@ import {HashFunctionEnum} from "../../types/hash-function.enum";
 import {Observable} from "rxjs";
 import {MineService} from "../../ser/mineService/mine.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {BlockService} from "../../ser/blockService/block.service";
 
 @Component({
   selector: 'app-block',
@@ -26,10 +27,11 @@ export class BlockComponent implements OnInit {
 
   constructor(private cryptoService: CryptoService,
               private mineService: MineService,
+              private blockService: BlockService,
               private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);
+    this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.blockService.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);
   }
 
   /**
@@ -38,7 +40,7 @@ export class BlockComponent implements OnInit {
   inputChange() {
     this.blockCard.valid = false;
     this.blockCard.timestamp = Date.now();
-    this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);
+    this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.blockService.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);
     console.info(`Blocks input with ID=${this.blockCard.index} was changed and is now INVALID`);
   }
 
@@ -47,15 +49,7 @@ export class BlockComponent implements OnInit {
    */
   mineAction() {
     this.loading = true;
-    document.getElementById('block-data-input');
     this.mineBlockWorker(this.blockCard);
-  }
-
-  /**
-   * Return string for data hash.
-   */
-  getDataFromBlock(block: BlockInterface): string {
-    return `${block.data}${block.nonce}${block.prevHash}${block.timestamp}`
   }
 
   mineBlock(block: BlockInterface): Observable<string> {
@@ -65,7 +59,7 @@ export class BlockComponent implements OnInit {
       do {
         block.nonce++;
         block.timestamp = Date.now();
-        hash = this.cryptoService.hashDataWithSelectedFunction(this.getDataFromBlock(block), HashFunctionEnum.sha2);
+        hash = this.cryptoService.hashDataWithSelectedFunction(this.blockService.getDataFromBlock(block), HashFunctionEnum.sha2);
       } while (hash.substring(0, this.difficulty) !== '0'.repeat(this.difficulty));
       subscriber.next(hash);
       subscriber.complete();

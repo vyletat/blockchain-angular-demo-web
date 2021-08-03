@@ -3,8 +3,7 @@ import * as CryptoJS from 'crypto-js';
 import {BlockInterface} from "./types/block.interface";
 
 addEventListener('message', ({ data }) => {
-  /*const response = `worker response to ${data}`;
-  postMessage(response);*/
+  let start = new Date().getTime();
 
   const block: BlockInterface = JSON.parse(data);
   let difficulty = 5, nonce = 0, hash, date;
@@ -13,15 +12,15 @@ addEventListener('message', ({ data }) => {
     date = Date.now();
     hash = CryptoJS.SHA256(`${block.data}${block.nonce}${block.prevHash}${date}${nonce}`).toString();
   } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty));
+
+  let end = new Date().getTime();
+
   let response = {
     date: date,
     nonce: nonce,
-    hash: hash
+    hash: hash,
+    performance: end - start
   };
-
-  /*const start = Date.now();
-  while (Date.now() < start + 5000) {
-  }*/
 
   postMessage(response);
 });

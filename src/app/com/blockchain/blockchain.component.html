@@ -2,6 +2,7 @@
 <h1 class="display-1">Blockchain</h1>
 
 <!-- Blockchain cards -->
+<!-- TODO: Merge Genesis block and other + conditions -->
 <!-- Genesis block -->
 <mat-card class="example-card">
   <mat-card-header>
@@ -22,7 +23,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Data</mat-label>
-        <textarea matInput [id]="'data-input'" rows="6" [(ngModel)]="blockchain[0].data" (ngModelChange)="inputChange(0)"></textarea>
+        <textarea matInput [id]="'data-input'" rows="6" [attr.disabled]="loading ? '' : null" [(ngModel)]="blockchain[0].data" (ngModelChange)="inputChange(0)"></textarea>
       </mat-form-field>
     </div>
 
@@ -30,7 +31,7 @@
     <div class="row w-100">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Nonce</mat-label>
-        <input matInput [id]="'nonce-input'" [type]="'text'" [(ngModel)]="blockchain[0].nonce" (ngModelChange)="inputChange(0)">
+        <input matInput [id]="'nonce-input'" [type]="'text'" [attr.disabled]="loading ? '' : null" [(ngModel)]="blockchain[0].nonce" (ngModelChange)="inputChange(0)">
       </mat-form-field>
     </div>
 
@@ -63,7 +64,7 @@
         </ngb-alert>
       </div>
       <div class="col-2">
-        <button mat-raised-button class="w-100" [color]="'primary'" (click)="mineAction(0)">Mine <i class="fa fa-hashtag"></i></button>
+        <button mat-raised-button class="w-100" [disabled]="loading ? '' : null" [color]="'primary'" (click)="mineAction(0)">Mine <i class="fa fa-hashtag"></i></button>
       </div>
       <div class="col-1">
         <mat-spinner *ngIf="loading" [strokeWidth]="5" [diameter]="30"></mat-spinner>
@@ -105,7 +106,7 @@
         <div class="row w-100">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Data</mat-label>
-            <textarea matInput [id]="'data-input'" rows="6" [(ngModel)]="block.data" (ngModelChange)="inputChange(i)"></textarea>
+            <textarea matInput [id]="'data-input'" rows="6" [attr.disabled]="loading ? '' : null" [(ngModel)]="block.data" (ngModelChange)="inputChange(i)"></textarea>
           </mat-form-field>
         </div>
 
@@ -113,7 +114,7 @@
         <div class="row w-100">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Nonce</mat-label>
-            <input matInput [id]="'nonce-input'" [type]="'text'" [(ngModel)]="block.nonce" (ngModelChange)="inputChange(i)">
+            <input matInput [id]="'nonce-input'" [type]="'text'" [attr.disabled]="loading ? '' : null" [(ngModel)]="block.nonce" (ngModelChange)="inputChange(i)">
           </mat-form-field>
         </div>
 
@@ -138,10 +139,10 @@
       <mat-card-actions>
         <div class="d-flex justify-content-center">
           <div class="col-7">
-            <ngb-alert *ngIf="blockchain[0].valid" [type]="'success'" [dismissible]="false">
+            <ngb-alert *ngIf="blockchain[i].valid" [type]="'success'" [dismissible]="false">
               VALID
             </ngb-alert>
-            <ngb-alert *ngIf="!blockchain[0].valid" [type]="'danger'" [dismissible]="false">
+            <ngb-alert *ngIf="!blockchain[i].valid" [type]="'danger'" [dismissible]="false">
               INVALID
             </ngb-alert>
           </div>
@@ -152,7 +153,7 @@
             </button>
           </div>
           <div class="col-2">
-            <button mat-raised-button class="w-100" [color]="'primary'" (click)="mineAction(i)">Mine <i class="fa fa-hashtag"></i></button>
+            <button mat-raised-button class="w-100" [disabled]="loading ? '' : null" [color]="'primary'" (click)="mineAction(i)">Mine <i class="fa fa-hashtag"></i></button>
           </div>
           <div class="col-1">
             <mat-spinner *ngIf="loading" [strokeWidth]="5" [diameter]="30"></mat-spinner>
