@@ -12,6 +12,7 @@ interface MenuItemInterface {
 })
 export class AppComponent {
   title = 'Blockchain demo';
+  today = Date.now();
   menuItems: MenuItemInterface[] = [
     {
       name: 'Hash',

@@ -1,4 +1,11 @@
-<h1 class="display-1">Block example</h1>
+<div class="row">
+  <h1 class="display-1">Block example</h1>
+  <mat-chip-list class="ml-4" aria-label="Fish selection">
+    <mat-chip>SHA256</mat-chip>
+    <mat-chip>Difficulty: 5</mat-chip>
+  </mat-chip-list>
+</div>
+
 
 <!-- Block card -->
 <mat-card class="example-card">
@@ -76,7 +83,7 @@
         </ngb-alert>
       </div>
       <div class="col-2">
-        <button mat-raised-button class="w-100" [color]="'primary'" (click)="mineAction()">Mine <i class="fa fa-hashtag"></i></button>
+        <button mat-raised-button class="w-100" [color]="'primary'" [disabled]="loading ? '' : null" (click)="mineAction()">Mine <i class="fa fa-hashtag"></i></button>
       </div>
       <div class="col-1">
         <mat-spinner *ngIf="loading" [strokeWidth]="5" [diameter]="30"></mat-spinner>

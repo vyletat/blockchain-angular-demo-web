@@ -30,6 +30,8 @@ import { HomeComponent } from './com/home/home.component';
 import { PageNotFoundComponent } from './com/page-not-found/page-not-found.component';
 import { BlockComponent } from './com/block/block.component';
 import { BlockchainComponent } from './com/blockchain/blockchain.component';
+import { ConfigComponent } from './com/config/config.component';
+import { StatsComponent } from './com/stats/stats.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { BlockchainComponent } from './com/blockchain/blockchain.component';
     HomeComponent,
     PageNotFoundComponent,
     BlockComponent,
-    BlockchainComponent
+    BlockchainComponent,
+    ConfigComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

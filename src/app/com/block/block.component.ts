@@ -77,7 +77,7 @@ export class BlockComponent implements OnInit {
       this.blockCard.valid = true;
       this.loading = false;
       console.info(`Block with ID=${this.blockCard.index} was mined and his hash is: ${this.blockCard.currentHash}`);
-      this.openSnackBar(`Block with ID=${this.blockCard.index} was mined.`, 'OK')
+      this.openSnackBar(`Block with ID: ${this.blockCard.index} was mined after ${value.performance} ms.`, 'OK')
     });
   }
 
