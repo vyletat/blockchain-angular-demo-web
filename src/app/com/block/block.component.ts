@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {BlockService} from "../../ser/blockService/block.service";
 import {ConfigService} from "../../ser/configService/config.service";
 import {ConfigInterface} from "../../types/config.interface";
+import {MessageService} from "../../ser/messageService/message.service";
 
 @Component({
   selector: 'app-block',
@@ -29,7 +30,7 @@ export class BlockComponent implements OnInit {
   constructor(private cryptoService: CryptoService,
               private mineService: MineService,
               private blockService: BlockService,
-              private _snackBar: MatSnackBar,
+              private msgService: MessageService,
               private configService: ConfigService) { }
 
   ngOnInit(): void {
@@ -81,18 +82,8 @@ export class BlockComponent implements OnInit {
       this.blockCard.valid = true;
       this.loading = false;
       console.info(`Block with ID=${this.blockCard.index} was mined and his hash is: ${this.blockCard.currentHash}`);
-      this.openSnackBar(`Block with ID: ${this.blockCard.index} was mined after ${value.performance} ms.`, 'OK')
+      this.msgService.openSnackBar(`Block with ID: ${this.blockCard.index} was mined after ${value.performance} ms.`, 'OK');
     });
-  }
-
-  /**
-   * Open snackbar in this component.
-   *
-   * @param message     Message to show.
-   * @param action      Message for action.
-   */
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: 3000});
   }
 
 }

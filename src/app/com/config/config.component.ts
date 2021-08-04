@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HashFunctionEnum} from "../../types/hash-function.enum";
 import {ConfigService} from "../../ser/configService/config.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MessageService} from "../../ser/messageService/message.service";
 
 @Component({
   selector: 'app-config',
@@ -10,14 +11,13 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent implements OnInit {
-  snackBarDuration: number = 3000;
   configForm = new FormGroup({
     hashFunction: new FormControl('', [Validators.required]),
     difficulty: new FormControl('', [Validators.required, Validators.min(0), Validators.max(6)]),
   });
 
   constructor(private configService: ConfigService,
-              private _snackBar: MatSnackBar) {
+              private msgService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -52,23 +52,13 @@ export class ConfigComponent implements OnInit {
     this.configService.setConfig(this.configForm.value);
     console.info(`Config was saved to Local storage.`);
     // this.configForm.reset();
-    this.openSnackBar('Config was saved to Local storage', 'OK')
+    this.msgService.openSnackBar('Config was saved to Local storage', 'OK');
   }
 
   loadDefault() {
     this.configService.setDefaultConfig();
     this.configForm.setValue(this.configService.getDefaultConfig());
     console.warn(`Default config was saved to Local storage.`);
-    this.openSnackBar('Default config was saved to Local storage', 'OK')
-  }
-
-  /**
-   * Open snackbar in this component.
-   *
-   * @param message     Message to show.
-   * @param action      Message for action.
-   */
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: this.snackBarDuration});
+    this.msgService.openSnackBar('Default config was saved to Local storage', 'OK');
   }
 }

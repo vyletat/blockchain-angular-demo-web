@@ -4,9 +4,9 @@ import {HashFunctionEnum} from "../../types/hash-function.enum";
 import {CryptoService} from "../../ser/cryptoService/crypto.service";
 import {MineService} from "../../ser/mineService/mine.service";
 import {BlockService} from "../../ser/blockService/block.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfigInterface} from "../../types/config.interface";
 import {ConfigService} from "../../ser/configService/config.service";
+import {MessageService} from "../../ser/messageService/message.service";
 
 @Component({
   selector: 'app-blockchain',
@@ -17,7 +17,6 @@ export class BlockchainComponent implements OnInit {
   index: number = 1;
   loading: boolean = false;
   genesisBlockPrevHash: string = '000000000000000000000000000000000000000000000000000000000000000000000000';
-  snackBarDuration: number = 3000;
   config: ConfigInterface = this.configService.getConfig();
   blockchain: BlockInterface[] =
   [
@@ -35,7 +34,7 @@ export class BlockchainComponent implements OnInit {
   constructor(private cryptoService: CryptoService,
               private mineService: MineService,
               private blockService: BlockService,
-              private _snackBar: MatSnackBar,
+              private msgService: MessageService,
               private configService: ConfigService) { }
 
   ngOnInit(): void { }
@@ -136,7 +135,7 @@ export class BlockchainComponent implements OnInit {
       this.blockchain[index].valid = this.prevIsValid(index);
       this.loading = false;
       console.info(`Block with ID: ${this.blockchain[index].index} was mined with hash: ${this.blockchain[index].currentHash} and is valid: ${this.blockchain[index].valid}`);
-      this.openSnackBar(`Block with ID: ${this.blockchain[index].index} was mined after ${value.performance} ms.`, 'OK')
+      this.msgService.openSnackBar(`Block with ID: ${this.blockchain[index].index} was mined after ${value.performance} ms.`, 'OK')
     });
   }
 
@@ -174,15 +173,5 @@ export class BlockchainComponent implements OnInit {
       }
     }
     return valid;
-  }
-
-  /**
-   * Open snackbar in this component.
-   *
-   * @param message     Message to show.
-   * @param action      Message for action.
-   */
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: this.snackBarDuration});
   }
 }
