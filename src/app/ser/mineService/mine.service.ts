@@ -19,9 +19,14 @@ export class MineService {
       // Create a new Worker
       const worker = new Worker(new URL('../../app.worker', import.meta.url));
 
-      // Callback
+      // Receive message
       worker.onmessage = ({ data }) => {
         updateBlock(data);
+      };
+
+      // Error
+      worker.onerror = (error) => {
+        console.error(error)
       };
 
       // POST

@@ -1,12 +1,6 @@
 <mat-list>
-  <mat-list-item>
-    <a [routerLink]="['/hash']">Hash example</a>
-  </mat-list-item>
-  <mat-list-item>
-    <a [routerLink]="['/block']">Block example</a>
-  </mat-list-item>
-  <mat-list-item>
-    <a [routerLink]="['/blockchain']">Blockchain</a>
+  <mat-list-item *ngFor="let item of menuItems">
+    <a [routerLink]="item.href">{{item.name}}</a>
   </mat-list-item>
 </mat-list>
 

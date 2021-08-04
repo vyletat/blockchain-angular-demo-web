@@ -5,6 +5,7 @@ import { HomeComponent } from './com/home/home.component';
 import { PageNotFoundComponent } from './com/page-not-found/page-not-found.component';
 import {BlockchainComponent} from "./com/blockchain/blockchain.component";
 import {BlockComponent} from "./com/block/block.component";
+import {ConfigComponent} from "./com/config/config.component";
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'blockchain',
     component: BlockchainComponent
+  },
+  {
+    path: 'config',
+    component: ConfigComponent
   },
   {
     path: '**',

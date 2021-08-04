@@ -5,6 +5,8 @@ import {CryptoService} from "../../ser/cryptoService/crypto.service";
 import {MineService} from "../../ser/mineService/mine.service";
 import {BlockService} from "../../ser/blockService/block.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ConfigInterface} from "../../types/config.interface";
+import {ConfigService} from "../../ser/configService/config.service";
 
 @Component({
   selector: 'app-blockchain',
@@ -16,6 +18,7 @@ export class BlockchainComponent implements OnInit {
   loading: boolean = false;
   genesisBlockPrevHash: string = '000000000000000000000000000000000000000000000000000000000000000000000000';
   snackBarDuration: number = 3000;
+  config: ConfigInterface = this.configService.getConfig();
   blockchain: BlockInterface[] =
   [
     {
@@ -32,7 +35,8 @@ export class BlockchainComponent implements OnInit {
   constructor(private cryptoService: CryptoService,
               private mineService: MineService,
               private blockService: BlockService,
-              private _snackBar: MatSnackBar) { }
+              private _snackBar: MatSnackBar,
+              private configService: ConfigService) { }
 
   ngOnInit(): void { }
 

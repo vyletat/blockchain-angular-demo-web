@@ -5,6 +5,8 @@ import {HashFunctionEnum} from "../../types/hash-function.enum";
 import {MineService} from "../../ser/mineService/mine.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BlockService} from "../../ser/blockService/block.service";
+import {ConfigService} from "../../ser/configService/config.service";
+import {ConfigInterface} from "../../types/config.interface";
 
 @Component({
   selector: 'app-block',
@@ -12,8 +14,8 @@ import {BlockService} from "../../ser/blockService/block.service";
   styleUrls: ['./block.component.css']
 })
 export class BlockComponent implements OnInit {
-  // difficulty: number = 4;
   loading: boolean = false;
+  config: ConfigInterface = this.configService.getConfig();
   blockCard: BlockInterface =  {
     index: 1,
     timestamp: Date.now(),
@@ -27,7 +29,8 @@ export class BlockComponent implements OnInit {
   constructor(private cryptoService: CryptoService,
               private mineService: MineService,
               private blockService: BlockService,
-              private _snackBar: MatSnackBar) { }
+              private _snackBar: MatSnackBar,
+              private configService: ConfigService) { }
 
   ngOnInit(): void {
     this.blockCard.currentHash = this.cryptoService.hashDataWithSelectedFunction(this.blockService.getDataFromBlock(this.blockCard), HashFunctionEnum.sha2);

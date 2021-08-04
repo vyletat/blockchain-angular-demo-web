@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-interface MenuItemInterface {
-  name: string,
-  href: string
-}
+import {MenuItemInterface} from "./types/menu-item.interface";
 
 @Component({
   selector: 'app-root',
@@ -26,6 +22,10 @@ export class AppComponent {
     {
       name: 'Blockchain',
       href: '/blockchain'
+    },
+    {
+      name: 'Config',
+      href: '/config'
     }
   ]
 

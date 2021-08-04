@@ -1,1 +1,28 @@
-<p>config works!</p>
+<form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+  <div>
+    <div class="d-flex m-4">
+      <!-- Hash function -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Hash function</mat-label>
+        <mat-select formControlName="hashFunction" required>
+          <mat-option *ngFor="let hash of getHasFunctions()" [value]="hash">{{hash}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="configForm.get('hashFunction')?.invalid">{{getErrorMessageForHashFunction()}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="d-flex m-4">
+      <!-- Difficulty -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Difficulty</mat-label>
+        <input matInput type="number" formControlName="difficulty" required>
+        <mat-error *ngIf="configForm.get('difficulty')?.invalid">{{getErrorMessageForDifficulty()}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="d-flex w-100 justify-content-around">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!configForm.valid">Submit</button>
+      <button mat-raised-button color="accent" (click)="loadDefault()">Load default</button>
+    </div>
+  </div>
+</form>
+
+
